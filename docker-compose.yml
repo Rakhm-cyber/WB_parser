@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: ./APIdirectory
+      dockerfile: Dockerfile
+    container_name: wb_parser_app
+#    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+    hostname: webapp.local
+    networks:
+      wb_parser_network:
+        aliases:
+          - webapp.local
+
+  bot:
+    build:
+      context: ./tg_bot
+      dockerfile: Dockerfile
+    container_name: wb_parser_bot
+#    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - app
+    networks:
+      - wb_parser_network
+
+  db:
+    image: postgres:15
+    container_name: wb_parser_db
+#    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - 5433:5432
+    networks:
+      - wb_parser_network
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+networks:
+  wb_parser_network:
+    name: wb_parser_network
+

@@ -1,7 +1,9 @@
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.future import select
+
 from models import Product
 from database import factory
+
 
 async def add_prod(articul: int, name: str, number: int, price: float, rate: float):
     async with factory() as db:
