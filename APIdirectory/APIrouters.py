@@ -71,11 +71,11 @@ async def product_subscribe(artikul: int, token: str = Depends(verify_token)):
 
     scheduler.add_job(
         product_search,
-        trigger=IntervalTrigger(seconds=5),
+        trigger=IntervalTrigger(minutes=30),
         args=[artikul],
         jobstore='default'
     )
-    return {"message": f"Подписка на товар с артикулом {artikul} запущена"}
+    return {"message": f"Подписка на товар с артикулом {artikul}"}
 
 
 @router_api.get("/api/v1/remove_all_jobs")
