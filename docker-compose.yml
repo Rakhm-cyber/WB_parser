@@ -45,9 +45,11 @@ services:
     networks:
       - wb_parser_network
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
 networks:
   wb_parser_network:
     name: wb_parser_network
 
+volumes:
+  postgres_data:
